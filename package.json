@@ -2,7 +2,7 @@
   "name": "saxi",
   "version": "0.16.0",
   "description": "Drive the AxiDraw pen plotter",
-  "homepage": "https://github.com/nornagon/saxi",
+  "homepage": "https://github.com/alexrudd2/saxi",
   "repository": "github:alexrudd2/saxi",
   "bugs": "https://github.com/alexrudd2/saxi/issues",
   "keywords": [
