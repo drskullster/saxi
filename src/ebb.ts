@@ -205,7 +205,7 @@ export class EBB {
     }
     const stepsAxis1 = xSteps + ySteps;
     const stepsAxis2 = xSteps - ySteps;
-    const norm = Math.sqrt(Math.pow(xSteps, 2) + Math.pow(ySteps, 2));
+    const norm = Math.sqrt(xSteps ** 2 + ySteps ** 2);
     const normX = xSteps / norm;
     const normY = ySteps / norm;
     const initialRateX = initialRate * normX;
@@ -315,11 +315,10 @@ export class EBB {
   public executeMotion(m: Motion): Promise<void> {
     if (m instanceof XYMotion) {
       return this.executeXYMotion(m);
-    } else if (m instanceof PenMotion) {
+    } if (m instanceof PenMotion) {
       return this.executePenMotion(m);
-    } else {
-      throw new Error(`Unknown motion type: ${m.constructor.name}`);
     }
+    throw new Error(`Unknown motion type: ${m.constructor.name}`);
   }
 
   public async executePlan(plan: Plan, microsteppingMode = 2): Promise<void> {
