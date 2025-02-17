@@ -266,7 +266,7 @@ function isEBB(p: PortInfo): boolean {
 async function listEBBs() {
   const Binding = autoDetect();
   const ports = await Binding.list();
-  return ports.filter(isEBB).map((p: { path: any; }) => p.path);
+  return ports.filter(isEBB).map((p: { path: string }) => p.path);
 }
 
 export async function waitForEbb (): Promise<Com> {

@@ -241,7 +241,7 @@ class SaxiDriver implements Driver {
 
   private socket: WebSocket;
   private connected: boolean;
-  private pingInterval: number;
+  private pingInterval: number | undefined;
 
   public name() {
     return 'Saxi Server';
@@ -312,7 +312,7 @@ class SaxiDriver implements Driver {
     this.socket.addEventListener("close", () => {
       console.log("Disconnected from EBB server, reconnecting in 5 seconds.");
       window.clearInterval(this.pingInterval);
-      this.pingInterval = null;
+      this.pingInterval = undefined;
       this.connected = false;
       if (this.onconnectionchange) { this.onconnectionchange(false); }
       this.socket = null;
