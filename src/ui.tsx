@@ -669,11 +669,10 @@ function PlanPreview(
       const palette = colorPathsByStrokeOrder
         ? interpolator(colormap({ colormap: 'spring' }))
         : () => 'rgba(0, 0, 0, 0.8)';
-      const lines = plan.motions.map((m) => {
-        if (m instanceof XYMotion) {
-          return m.blocks.map((b) => b.p1).concat([m.p2]);
-        } else { return []; }
-      }).filter((m) => m.length);
+      const lines = plan.motions
+        .filter((m) => m instanceof XYMotion)
+        .map((m) => m.blocks.map((b) => b.p1).concat([m.p2]))  // Map each XYMotion to its start/end points
+        .filter((m) => m.length);
       return <g transform={`scale(${1 / device.stepsPerMm})`}>
         {lines.map((line, i) =>
           <path

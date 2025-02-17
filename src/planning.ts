@@ -331,7 +331,8 @@ export class Plan {
     return new Plan(this.motions.map((motion, j) => {
       if (motion instanceof XYMotion) {
         return motion;
-      } else if (motion instanceof PenMotion) {
+      } 
+      if (motion instanceof PenMotion) {
         // TODO: Remove this hack by storing the pen-up/pen-down heights
         // in a single place, and reference them from the PenMotions.
         if (j === this.motions.length - 1) {
