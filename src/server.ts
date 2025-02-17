@@ -260,7 +260,7 @@ function sleep(ms: number) {
 }
 
 function isEBB(p: PortInfo): boolean {
-  return p.manufacturer === "SchmalzHaus" || p.manufacturer === "SchmalzHaus LLC" || (p.vendorId == "04D8" && p.productId == "FD92");
+  return p.manufacturer === "SchmalzHaus" || p.manufacturer === "SchmalzHaus LLC" || (p.vendorId === "04D8" && p.productId === "FD92");
 }
 
 async function listEBBs() {
