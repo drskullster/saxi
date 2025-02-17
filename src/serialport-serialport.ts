@@ -120,12 +120,8 @@ export class SerialPortSerialPort extends EventEmitter implements SerialPort {
 
   public removeEventListener(type: "connect" | "disconnect", callback: (this: this, ev: Event) => any, useCapture?: boolean): void;
   public removeEventListener(type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-  public removeEventListener(type: any, callback: any, options?: any): void {
-    if (typeof options === 'object' && options.once) {
-      this.off(type, callback);
-    } else {
-      this.off(type, callback);
-    }
+  public removeEventListener(type: any, callback: any, _options?: any): void {
+    this.off(type, callback);
   }
 
   public dispatchEvent(event: Event): boolean {
