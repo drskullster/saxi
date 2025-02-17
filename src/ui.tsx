@@ -674,6 +674,11 @@ function PlanPreview(
         } else { return []; }
       }).filter((m) => m.length);
       return <g transform={`scale(${1 / device.stepsPerMm})`}>
+        <title>Plot origin</title>
+        <text x={lines[0][0].x} y={lines[0][0].y}
+          fontSize="40"
+          textAnchor="middle" dominantBaseline="middle"
+        >ꚛ</text>
         {lines.map((line, i) =>
           <path
             key={i}
