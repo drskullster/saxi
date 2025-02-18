@@ -590,13 +590,13 @@ function constantAccelerationPlan(points: Vec2[], profile: AccelerationProfile):
     }
   }
   const blocks: Block[] = [];
-  segments.forEach((s) => {
-    s.blocks.forEach((b) => {
-      if (b.duration > epsilon) {
-        blocks.push(b);
+  for (const segment of segments) {
+    for (const block of segment.blocks) {
+      if (block.duration > epsilon) {
+        blocks.push(block);
       }
-    });
-  });
+    }
+  }
   return new XYMotion(blocks);
 }
 
@@ -613,13 +613,12 @@ export function plan(
   };
 
   // For each path - move to the initial position, put the pen down, draw the path, bring pen up
-  paths.forEach(path => {
+  for (const path of paths) {
     const motion = constantAccelerationPlan(path, profile.penDownProfile);
     const position = constantAccelerationPlan([curPos, motion.p1], profile.penUpProfile);
-
     motions.push(position, penMotions.down, motion, penMotions.up);
     curPos = motion.p2;
-  });
+  }  
 
   // Move to {x: 0, y: 0}
   motions.push(constantAccelerationPlan([curPos, { x: 0, y: 0 }], profile.penUpProfile));

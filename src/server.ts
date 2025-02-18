@@ -146,13 +146,13 @@ export async function startServer (port: number, hardware: Hardware = 'v3', com:
   });
 
   function broadcast(msg: any) {
-    clients.forEach((ws) => {
+    for (const client of clients) {
       try {
-        ws.send(JSON.stringify(msg));
+        client.send(JSON.stringify(msg));
       } catch (e) {
         console.warn(e);
       }
-    });
+    }
   }
 
   interface Plotter {
