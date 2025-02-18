@@ -469,8 +469,8 @@ function PenHeight({ state, driver }: { state: State; driver: Driver }) {
       </label>
     </div>
     <div className="flex">
-      <button onClick={penUp}>pen up</button>
-      <button onClick={penDown}>pen down</button>
+      <button type="button" onClick={penUp}>pen up</button>
+      <button type="button" onClick={penDown}>pen down</button>
     </div>
   </Fragment>;
 }
@@ -518,6 +518,7 @@ function SwapPaperSizesButton({ onClick }: { onClick: () => void }) {
     viewBox="0 0 14.05 11.46"
     onClick={onClick}
   >
+    <title>swap width and height</title>
     <g>
       <polygon points="14.05 3.04 8.79 0 8.79 1.78 1.38 1.78 1.38 4.29 8.79 4.29 8.79 6.08 14.05 3.04" />
       <polygon points="0 8.43 5.26 11.46 5.26 9.68 12.67 9.68 12.67 7.17 5.26 7.17 5.26 5.39 0 8.43" />
@@ -608,7 +609,7 @@ function PaperConfig({ state }: { state: State }) {
 
 function MotorControl({ driver }: { driver: Driver }) {
   return <div>
-    <button onClick={() => driver.limp()}>disengage motors</button>
+    <button type="button" onClick={() => driver.limp()}>disengage motors</button>
   </div>;
 }
 
@@ -668,11 +669,10 @@ function PlanPreview(
       const palette = colorPathsByStrokeOrder
         ? interpolator(colormap({ colormap: 'spring' }))
         : () => 'rgba(0, 0, 0, 0.8)';
-      const lines = plan.motions.map((m) => {
-        if (m instanceof XYMotion) {
-          return m.blocks.map((b) => b.p1).concat([m.p2]);
-        } else { return []; }
-      }).filter((m) => m.length);
+      const lines = plan.motions
+        .filter((m) => m instanceof XYMotion)
+        .map((m) => m.blocks.map((b) => b.p1).concat([m.p2]))  // Map each XYMotion to its start/end points
+        .filter((m) => m.length);
       return <g transform={`scale(${1 / device.stepsPerMm})`}>
         <title>Plot origin</title>
         <text x={lines[0][0].x} y={lines[0][0].y}
@@ -740,6 +740,7 @@ function PlanPreview(
             `translate(${posXMm / ps.size.x * 50}%,${posYMm / ps.size.y * 50}%)`
         }}
       >
+        <title>Progress percentage bar</title>
         <g>
           <path
             d={`M-${width} 0l${width * 2} 0M0 -${height}l0 ${height * 2}`}
@@ -770,6 +771,7 @@ function PlanPreview(
       height={height}
       viewBox={`0 0 ${ps.size.x} ${ps.size.y}`}
     >
+      <title>Plot preview</title>
       {memoizedPlanPreview}
       {margins}
     </svg>
@@ -848,11 +850,13 @@ function PlotButtons(
     {
       isPlanning
         ? <button
+          type="button"
           className="replan-button"
           disabled={true}>
           Replanning...
         </button>
         : <button
+          type="button"
           className={`plot-button ${state.progress != null ? "plot-button--plotting" : ""}`}
           disabled={plan == null || state.progress != null}
           onClick={() => plot(plan)}>
@@ -861,11 +865,12 @@ function PlotButtons(
     }
     <div className={`button-row`}>
       <button
+        type="button"
         className={`cancel-button ${state.progress != null ? "cancel-button--active" : ""}`}
         onClick={state.paused ? resume : pause}
         disabled={plan == null || state.progress == null}
       >{state.paused ? "Resume" : "Pause"}</button>
-      <button
+      <button type="button"
         className={`cancel-button ${state.progress != null ? "cancel-button--active" : ""}`}
         onClick={cancel}
         disabled={plan == null || state.progress == null}
@@ -882,7 +887,7 @@ function ResetToDefaultsButton() {
     dispatch({ type: "SET_PLAN_OPTION", value: { ...defaultPlanOptions } });
   };
 
-  return <button className="button-link" onClick={onClick}>reset all options</button>;
+  return <button type="reset" className="button-link" onClick={onClick}>reset all options</button>;
 
 }
 
@@ -1066,6 +1071,7 @@ function PortSelector({ driver, setDriver, hardware }: PortSelectorProps) {
     {driver ? `Connected: ${driver.name()}` : null}
     {!driver ?
       <button
+        type="button"
         disabled={initializing}
         onClick={async () => {
           try {
