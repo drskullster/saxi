@@ -386,7 +386,7 @@ const usePlan = (paths: Vec2[][] | null, planOptions: PlanOptions) => {
 
   useEffect(() => {
     if (!paths) {
-      return () =>{};
+      return () => {};
     }
     if (lastPlan.current != null && lastPaths.current === paths) {
       const rejiggered = attemptRejigger(lastPlanOptions.current ?? defaultPlanOptions, planOptions, lastPlan.current);
@@ -394,7 +394,7 @@ const usePlan = (paths: Vec2[][] | null, planOptions: PlanOptions) => {
         setPlan(rejiggered);
         lastPlan.current = rejiggered;
         lastPlanOptions.current = planOptions;
-        return () =>{};
+        return () => {};
       }
     }
     lastPaths.current = paths;
@@ -622,7 +622,7 @@ function PlanStatistics({ plan }: { plan: Plan }) {
 
 function TimeLeft({ plan, progress, currentMotionStartedTime, paused }: {
   plan: Plan;
-  progress: number | null; 
+  progress: number | null;
   currentMotionStartedTime: Date | null;
   paused: boolean;
 }) {
@@ -1219,9 +1219,9 @@ function Root() {
           <div className="section-header">plot</div>
           <div className="section-body section-body__plot">
             <PlanStatistics plan={plan} />
-            <TimeLeft 
-              plan={plan} 
-              progress={state.progress} 
+            <TimeLeft
+              plan={plan}
+              progress={state.progress}
               currentMotionStartedTime={currentMotionStartedTime}
               paused={state.paused}
             />
