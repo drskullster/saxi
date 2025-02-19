@@ -414,8 +414,8 @@ const usePlan = (paths: Vec2[][] | null, planOptions: PlanOptions) => {
     };
     worker.addEventListener("message", listener);
     return () => {
-      worker.terminate();
       worker.removeEventListener("message", listener);
+      worker.terminate();
       setIsPlanning(false);
     };
   }, [paths, serialize(planOptions)]);
