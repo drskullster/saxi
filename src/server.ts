@@ -4,7 +4,6 @@ import express from "express";
 import http from "node:http";
 import path from "node:path";
 import type { PortInfo } from "@serialport/bindings-interface";
-import { WakeLock } from "wake-lock";
 import WebSocket from "ws";
 import { SerialPortSerialPort } from "./serialport-serialport";
 import { PenMotion, type Motion, Plan } from "./planning";
@@ -94,24 +93,13 @@ export async function startServer (port: number, hardware: Hardware = 'v3', com:
       res.status(200).end();
 
       const begin = Date.now();
-      let wakeLock: any;
-      // The wake-lock module is macOS-only.
-      if (process.platform === 'darwin') {
-        try {
-          wakeLock = new WakeLock("saxi plotting");
-        } catch {
-          console.warn("Couldn't acquire wake lock. Ensure your machine does not sleep during plotting");
-        }
-      }
 
       try {
         await doPlot(ebb != null ? realPlotter : simPlotter, plan);
         const end = Date.now();
         console.log(`Plot took ${formatDuration((end - begin) / 1000)}`);
-      } finally {
-        if (wakeLock) {
-          wakeLock.release();
-        }
+      } catch(e) {
+        console.log(e);
       }
     } finally {
       plotting = false;
