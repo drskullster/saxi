@@ -164,7 +164,7 @@ export async function startServer (port: number, hardware: Hardware = 'v3', com:
 
   const realPlotter: Plotter = {
     async prePlot(initialPenHeight: number): Promise<void> {
-      await ebb.enableMotors(2);
+      await ebb.enableMotors(1);
       await ebb.setPenHeight(initialPenHeight, 1000, 1000);
     },
     async executeMotion(motion: Motion, _progress: [number, number]): Promise<void> {
