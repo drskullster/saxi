@@ -27,6 +27,7 @@
     "prepare": "rimraf dist && npm run build",
     "start": "npm run build && node cli.js",
     "dev": "BUILD_MODE=development npm start",
+    "serve": "node cli.js",
     "deploy": "rimraf dist/ui && IS_WEB=1 npm run build:ui && gh-pages --dist dist/ui",
     "test": "jest"
   },

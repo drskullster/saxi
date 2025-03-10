@@ -1101,7 +1101,9 @@ function Root() {
     if (IS_WEB) {
       setDriver(null as Driver);
     } else {
-      setDriver(SaxiDriver.connect());
+      const driverInstance = SaxiDriver.connect();
+      window.driver = driverInstance;
+      setDriver(driverInstance);
     }
     setIsDriverConnected(true);
   }, [isDriverConnected]);

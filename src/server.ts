@@ -61,6 +61,18 @@ export async function startServer (port: number, hardware: Hardware = 'v3', com:
             })();
           }
           break;
+        case "jog":
+          if (ebb) {
+            (async () => {
+              await ebb.enableMotors(1);
+              if (msg.p.x) {
+                await ebb.moveAtConstantRate(Math.abs(msg.p.x) * 0.0005, 0, msg.p.x); // Inverting axis because iDraw
+              }
+              if (msg.p.y) {
+                await ebb.moveAtConstantRate(Math.abs(msg.p.y) * 0.0005, msg.p.y, 0); // Inverting axis because iDraw
+              }
+            })();
+          }
       }
     });
 
