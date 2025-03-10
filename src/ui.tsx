@@ -476,6 +476,24 @@ function PenHeight({ state, driver }: { state: State; driver: Driver }) {
   </Fragment>;
 }
 
+function Jog({ driver }: { driver: Driver }) {
+  
+  const move = (dir: 'up' | 'left' | 'right' | 'down') => {
+    if (driver instanceof SaxiDriver) {
+      driver.send({ c: 'jog', p: { dir } });
+    }
+  };
+  
+  return <Fragment>
+    <button type="button" onClick={() => move('up')}>up</button>
+    <div className="flex">
+      <button type="button" onClick={() => move('left')}>left</button>
+      <button type="button" onClick={() => move('right')}>right</button>
+    </div>
+    <button type="button" onClick={() => move('down')}>down</button>
+  </Fragment>;
+}
+
 function HardwareOptions({ state }: { state: State }) {
   return <div>
     <div title="Motor type (affects pin and power settings)">
@@ -610,6 +628,7 @@ function PaperConfig({ state }: { state: State }) {
 
 function MotorControl({ driver }: { driver: Driver }) {
   return <div>
+    <Jog driver={driver} />
     <button type="button" onClick={() => driver.limp()}>disengage motors</button>
   </div>;
 }

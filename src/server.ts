@@ -63,12 +63,15 @@ export async function startServer (port: number, hardware: Hardware = 'v3', com:
         case "jog":
           if (ebb) {
             (async () => {
-              await ebb.enableMotors(1);
-              if (msg.p.x) {
-                await ebb.moveAtConstantRate(Math.abs(msg.p.x) * 0.0005, 0, msg.p.x); // Inverting axis because iDraw
-              }
-              if (msg.p.y) {
-                await ebb.moveAtConstantRate(Math.abs(msg.p.y) * 0.0005, msg.p.y, 0); // Inverting axis because iDraw
+              // await ebb.enableMotors(1);
+              if (msg.p?.dir === 'up') {
+                await ebb.moveAtConstantRate(0.05, -10, 0); // Inverting axis because iDraw
+              } else if (msg.p?.dir === 'down') {
+                await ebb.moveAtConstantRate(0.05, 10, 0); // Inverting axis because iDraw
+              } else if (msg.p?.dir === 'left') {
+                await ebb.moveAtConstantRate(0.05, 0, 10); // Inverting axis because iDraw
+              } else if (msg.p?.dir === 'right') {
+                await ebb.moveAtConstantRate(0.05, 0, -10); // Inverting axis because iDraw
               }
             })();
           }
